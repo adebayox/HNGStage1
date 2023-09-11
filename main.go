@@ -53,7 +53,7 @@ func getInfos(w http.ResponseWriter, r *http.Request) {
 func main() {
 	r := mux.NewRouter()
 
-	r.HandleFunc("/info", getInfos ).Methods("GET")
+	r.HandleFunc("/api", getInfos ).Methods("GET")
 
 	cors := handlers.CORS(
         handlers.AllowedOrigins([]string{"*"}), // Replace with your specific allowed origins
