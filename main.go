@@ -13,52 +13,45 @@ import (
 )
 
 type Info struct {
-	Slack_name string `json:"slackname"`
-	Current_day string `json:"currentday"`
-	Utc_time string `json:"utc_time"`
- 	Track string `json:"track"` 
-	Github_file_url string `json:"githubfileurl"`
-	Github_repo_url string `json:"githubrepourl"`
-	Status_code int `json:"statuscode"`
+    SlackName      string `json:"slackname"`
+    CurrentDay     string `json:"currentday"`
+    UTCTime        string `json:"utc_time"`
+    Track          string `json:"track"`
+    GithubFileURL  string `json:"githubfileurl"`
+    GithubRepoURL  string `json:"githubrepourl"`
+    StatusCode     int    `json:"statuscode"`
 }
 
-var infos []Info
 
-func getInfos(w http.ResponseWriter, r *http.Request){
-	w.Header().Set("content-type", "application/json")
-	queryParams := r.URL.Query()
+func getInfos(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Content-Type", "application/json")
+
+    queryParams := r.URL.Query()
     slackName := queryParams.Get("slack_name")
     track := queryParams.Get("track")
-	
-	  // Initialize a slice to hold filtered results
-	  var filteredInfos []Info
 
-	  for _, item := range infos {
-		  if item.Slack_name == slackName {
-			  if item.Track == track {
-				  filteredInfos = append(filteredInfos, item)
-			  }
-		  }
-	  }
+    // Create an Info object based on the query parameters
+    info := Info{
+        SlackName:      slackName,
+        CurrentDay:     time.Now().UTC().Weekday().String(),
+        UTCTime:        time.Now().UTC().Format(time.RFC3339),
+        Track:          track,
+        GithubFileURL:  "https://github.com/adebayox/HNGStage1/blob/main/main.go",
+        GithubRepoURL:  "https://github.com/adebayox/HNGStage1",
+        StatusCode:     200,
+    }
 
-	  if err := json.NewEncoder(w).Encode(infos); err != nil {
-		  http.Error(w, err.Error(), http.StatusInternalServerError)
-		  return
-	  }
+    // Encode the Info object as JSON and send it as the response
+    if err := json.NewEncoder(w).Encode(info); err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
 }
+
 
 
 func main() {
 	r := mux.NewRouter()
-
-	infos = append(infos, Info{
-		Slack_name: "Adebayo David", 
-		Current_day: time.Now().UTC().Weekday().String(), 
-		Utc_time: time.Now().UTC().Format(time.RFC3339), 
-		Track: "backend",
-		Github_file_url: "https://github.com/adebayox/HNGStage1/blob/main/main.go", 
-		Github_repo_url: "https://github.com/adebayox/HNGStage1", 
-		Status_code: 200 })
 
 	r.HandleFunc("/info", getInfos ).Methods("GET")
 
