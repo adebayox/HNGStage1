@@ -6,8 +6,10 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gorilla/mux"
 	"time"
+
+	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
 )
 
 type Info struct {
@@ -59,6 +61,15 @@ func main() {
 		Status_code: 200 })
 
 	r.HandleFunc("/info", getInfos ).Methods("GET")
+
+	cors := handlers.CORS(
+        handlers.AllowedOrigins([]string{"*"}), // Replace with your specific allowed origins
+        handlers.AllowedMethods([]string{"GET", "OPTIONS"}), // Add other HTTP methods if needed
+        handlers.AllowedHeaders([]string{"Content-Type"}),
+    )
+
+    // Wrap your router with the CORS middleware
+    http.Handle("/", cors(r))
 
 	fmt.Printf("starting server at 8000\n")
 	log.Fatal(http.ListenAndServe(":8000",r))
