@@ -54,8 +54,8 @@ func main() {
 		Current_day: time.Now().UTC().Weekday().String(), 
 		Utc_time: time.Now().UTC().Format(time.RFC3339), 
 		Track: "backend",
-		Github_file_url: "www.github.com/adebayox", 
-		Github_repo_url: "adebayox github", 
+		Github_file_url: "https://github.com/adebayox/HNGStage1/blob/main/main.go", 
+		Github_repo_url: "https://github.com/adebayox/HNGStage1", 
 		Status_code: 200 })
 
 	r.HandleFunc("/info", getInfos ).Methods("GET")
