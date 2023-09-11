@@ -13,13 +13,13 @@ import (
 )
 
 type Info struct {
-    SlackName      string `json:"slackname"`
-    CurrentDay     string `json:"currentday"`
-    UTCTime        string `json:"utc_time"`
+    Slack_Name      string `json:"slack_name"`
+    Current_day     string `json:"current_day"`
+    Utc_Time        string `json:"utc_time"`
     Track          string `json:"track"`
-    GithubFileURL  string `json:"githubfileurl"`
-    GithubRepoURL  string `json:"githubrepourl"`
-    StatusCode     int    `json:"statuscode"`
+    Github_file_url  string `json:"github_file_url"`
+    Github_repo_url  string `json:"github_repo_url"`
+    Status_code     int    `json:"status_code"`
 }
 
 
@@ -32,13 +32,13 @@ func getInfos(w http.ResponseWriter, r *http.Request) {
 
     // Create an Info object based on the query parameters
     info := Info{
-        SlackName:      slackName,
-        CurrentDay:     time.Now().UTC().Weekday().String(),
-        UTCTime:        time.Now().UTC().Format(time.RFC3339),
+        Slack_Name:      slackName,
+        Current_day:     time.Now().UTC().Weekday().String(),
+        Utc_Time:        time.Now().UTC().Format(time.RFC3339),
         Track:          track,
-        GithubFileURL:  "https://github.com/adebayox/HNGStage1/blob/main/main.go",
-        GithubRepoURL:  "https://github.com/adebayox/HNGStage1",
-        StatusCode:     200,
+        Github_file_url:  "https://github.com/adebayox/HNGStage1/blob/main/main.go",
+        Github_repo_url:  "https://github.com/adebayox/HNGStage1",
+        Status_code:     200,
     }
 
     // Encode the Info object as JSON and send it as the response
